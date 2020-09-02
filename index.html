@@ -335,16 +335,18 @@
                         
                         <div class="col-sm-9">
                             <div class="contact_form animated animated_scroll fadeInUp" style="animation-delay: 0.4s">
-                                <form >
+                                <form id="contact" method="POST" action="">
                                     <input placeholder="Name" id="name" name="name" type="text" class="form-control">
                                     <input placeholder="E-mail" id="email" name="email" type="email" class="form-control">
                                     <textarea placeholder="Message" id="msg" name="msg" class="form-control"></textarea>
-                                    <button id="submit" type="submit" class="submit btn">send message</button>
+                                    <button id="submit" disabled="disabled" type="submit" class="submit btn">send message</button>
                                     <!--Contact form message-->
-                                    <div style="color: green;" class="msg_error"><p>Your message has been sent. Thank you!</p></div>
+                                    <div style="color: green;"class="msg_error"><p>Your message has been sent. Thank you!</p></div>
                                     <!-- <div class="msg_error"><p>Sorry your message can not be sent.</p></div> -->
                                     <!--End contact form message-->
+                                    
                                 </form>
+                               
                             </div>
                         </div>
 
