@@ -23,4 +23,4 @@ jobs:
         ssh -o StrictHostKeyChecking=no user@your-server-ip "
         sudo rm -rf /var/www/static-website/*
         "
-        scp -r ./ user@your-server-ip:/var/www/static-website/
+        scp -r ./ rootu@192.168.18.183:/var/www/static-website/
