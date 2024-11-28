@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to Server
       run: |
-        ssh -o StrictHostKeyChecking=no user@your-server-ip "
+        ssh -o StrictHostKeyChecking=no rootu@192.168.18.183 "
         sudo rm -rf /var/www/static-website/*
         "
         scp -r ./ rootu@192.168.18.183:/var/www/static-website/
