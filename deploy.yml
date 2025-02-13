@@ -1,9 +1,9 @@
-name: Deploy Static Website
+name: Deploy to Home Server
 
 on:
   push:
     branches:
-      - master
+      - master  # Change if using another branch
 
 jobs:
   deploy:
@@ -13,14 +13,13 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
       with:
-        ssh-private-key: ${{ secrets.HOME_SERVER }}
-
-    - name: Deploy to Server
-      run: |
-        ssh -o StrictHostKeyChecking=no rootu@192.168.18.183 "
-        sudo rm -rf /var/www/static-website/*
-        "
-        scp -r ./ rootu@192.168.18.183:/var/www/static-website/
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /var/www/html  # Change to your web directory
+          git pull origin main
+          sudo systemctl restart nginx
