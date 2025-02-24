@@ -1,4 +1,5 @@
 name: Deploy Website to Ubuntu Server
+
 on:
   push:
     branches:
