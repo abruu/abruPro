@@ -3,7 +3,7 @@ name: Deploy Website to Ubuntu Server
 on:
   push:
     branches:
-      - master  # Change to your main branch if different
+      - master  # Change if needed
 
 jobs:
   deploy:
@@ -18,9 +18,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 1907 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Server
         run: |
-          rsync -avz --delete ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
-          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
+          rsync -avz -e "ssh -p 1907" ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+          ssh -p 1907 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
