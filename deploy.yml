@@ -1,8 +1,9 @@
-name: Deploy Website to Ubuntu Server
+name: Deploy to Ubuntu Server
+
 on:
   push:
     branches:
-      - master  # Change if needed
+      - master  # Change this if your deployment branch is different
 
 jobs:
   deploy:
@@ -12,14 +13,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Set Up SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p 1907 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 1907 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to Server
+      - name: Deploy Files to Server
         run: |
-          rsync -avz -e "ssh -p 1907" ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
-          ssh -p 1907 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "sudo systemctl restart nginx"
+          rsync -avz -e "ssh -p 1907" --delete ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/web.abru.fun
+
+      - name: Restart Nginx
+        run: |
+          ssh -p 1907 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "sudo systemctl restart nginx"
