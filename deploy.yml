@@ -22,7 +22,7 @@ jobs:
 
       - name: Deploy Files to Server
         run: |
-          rsync -avz -e "ssh -p 1907" --delete ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/web.abru.fun
+          rsync -avz -e "ssh -p 1907" --delete ./ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/www/abruPro
 
       - name: Restart Nginx
         run: |
